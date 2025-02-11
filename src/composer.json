@@ -1,0 +1,16 @@
+{
+    "name": "lsenna001/php-ao-laravel",
+    "description": "Curso do PHP ao Laravel do Clube Full-Stack",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Leonardo Sena",
+            "email": "leonardosenamesquita@outlook.com.br"
+        }
+    ],
+    "require-dev": {
+        "symfony/var-dumper": "^7.2",
+        "fakerphp/faker": "^1.24"
+    }
+}
