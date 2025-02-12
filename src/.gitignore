@@ -1,3 +1,6 @@
 # Composer Files
 vendor/
 composer.lock
+
+# Environment Variables
+.env

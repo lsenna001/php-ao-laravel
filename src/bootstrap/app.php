@@ -1,7 +1,9 @@
 <?php
 
-// require '../core/helpers/constants.php';
-// require '../core/helpers/functions.php';
+use App\Library\App;
 
-$dotenv = Dotenv\Dotenv::createImmutable(dirname(__FILE__, 2));
-$dotenv->load();
+// Inicia o App
+$app = App::create()
+    ->withEnvironmentVariables()
+    ->withErrorPage()
+    ->withContainer();
