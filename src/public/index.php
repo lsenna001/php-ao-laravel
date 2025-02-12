@@ -11,15 +11,3 @@ require '../bootstrap/app.php';
 
 // Importa as rotas web
 require '../routes/web.php';
-
-class HomeController
-{
-    public function index()
-    {
-        return view('index');
-    }
-}
-
-$controller = new HomeController;
-
-dd($controller->index());
