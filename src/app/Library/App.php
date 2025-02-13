@@ -52,7 +52,7 @@ class App
     public function withEnvironmentVariables(): App
     {
         // Inicia o Dotenv, library de carregamento de variáveis de ambiente
-        $dotenv = Dotenv::createImmutable(dirname(__FILE__, 3));
+        $dotenv = Dotenv::createImmutable(BASEPATH);
         $dotenv->load();
 
         return $this;

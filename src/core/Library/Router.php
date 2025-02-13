@@ -2,8 +2,9 @@
 
 namespace Core\Library;
 
-use Core\Exceptions\ControllerNotFoundException;
 use DI\Container;
+use Core\Controllers\ErrorController;
+use Core\Exceptions\ControllerNotFoundException;
 
 class Router
 {
@@ -76,11 +77,7 @@ class Router
 
         // Verifica se o Controller foi encontrado
         if ($this->controller) {
-            return $this->handleController(
-                $this->controller,
-                $this->action,
-                $this->parameters
-            );
+            return $this->handleController();
         }
 
         return $this->handleNotFound();
@@ -88,23 +85,19 @@ class Router
 
     /**
      * Manipula o controller caso exista a rota chamada
-     * @param string $controller Controller
-     * @param string $action Action
-     * @param array $parameters Parametros
      */
-    private function handleController(string $controller, string $action, array $parameters)
+    private function handleController()
     {
-
         // Verifica se o Controller e Action existem
-        if (!class_exists($controller) || !method_exists($controller, $action)) {
+        if (!class_exists($this->controller) || !method_exists($this->controller, $this->action)) {
             throw new ControllerNotFoundException(
-                "[$controller::$action] does not exist"
+                "[$this->controller::$this->action] does not exist"
             );
         }
 
         // Instancia e Executa o Controller
-        $controller = $this->container->get($controller);
-        $this->container->call([$controller, $action], [...$parameters]);
+        $controller = $this->container->get($this->controller);
+        $this->container->call([$controller, $this->action], [...$this->parameters]);
     }
 
     /**
@@ -112,6 +105,6 @@ class Router
      */
     private function handleNotFound()
     {
-        dump('404');
+        (new ErrorController)->notFound();
     }
 }
