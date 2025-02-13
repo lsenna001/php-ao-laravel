@@ -2,8 +2,9 @@
 
 namespace Core\Library;
 
-use League\Plates\Engine;
 use Core\Exceptions\ViewNotFoundException;
+use Core\Exceptions\ClassNotFoundException;
+use Core\Interfaces\TemplateInterface;
 
 class Layout
 {
@@ -14,11 +15,18 @@ class Layout
      */
     public static function render(string $view, array $data = [], string $view_path = VIEWPATH)
     {
-        if (!file_exists($view_path . "/{$view}.php")) {
-            throw new ViewNotFoundException("View {$view} not found");
-        }
-        $templates = new Engine($view_path);
+        $template = resolve('engine');
 
-        echo $templates->render($view, $data);
+        if (!class_exists($template)) {
+            throw new ClassNotFoundException("Template " . $template::class . " not found.");
+        }
+
+        $template = new $template();
+
+        if(!$template instanceof TemplateInterface) {
+            throw new ClassNotFoundException("Template " . $template::class . " must be implement TemplateInterface.");
+        }
+
+        return $template->render($view, $data, $view_path);
     }
 }

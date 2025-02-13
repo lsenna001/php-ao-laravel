@@ -57,4 +57,16 @@ class App
 
         return $this;
     }
+
+    /**
+     * Inicia o template engine
+     * @param string $engine Nome do Template Engine
+     * @return App
+     */
+    public function withTemplateEngine(string $engine)
+    {
+        bind('engine', $engine);
+
+        return $this;
+    }
 }
