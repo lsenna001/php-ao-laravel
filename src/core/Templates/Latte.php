@@ -15,6 +15,6 @@ class Latte implements TemplateInterface
 
         $latte->setTempDirectory($templatePath . 'cache');
 
-        $latte->render($templatePath . $view. '.latte', $data);
+        return $latte->render($templatePath . $view. '.latte', $data);
     }
 }

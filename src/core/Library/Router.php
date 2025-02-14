@@ -4,6 +4,7 @@ namespace Core\Library;
 
 use DI\Container;
 use Core\Controllers\ErrorController;
+use Core\Exceptions\ResponseException;
 use Core\Exceptions\ControllerNotFoundException;
 
 class Router
@@ -97,7 +98,34 @@ class Router
 
         // Instancia e Executa o Controller
         $controller = $this->container->get($this->controller);
-        $this->container->call([$controller, $this->action], [...$this->parameters]);
+        $response = $this->container->call([$controller, $this->action], [...$this->parameters]);
+
+        // Prepara a resposta
+        $this->handleResponse($response);
+    }
+
+    /**
+     * Manipula o objeto Response de acordo com o retorno do Controller
+     * @param mixed $response Retorno dos Controllers
+     */
+    private function handleResponse(mixed $response)
+    {
+        // Converte a resposta de array para json
+        if (is_array($response)) {
+            $response = response()->json($response);
+        }
+
+        // Cria o objeto resposta caso retorno for string
+        if (is_string($response)) {
+            $response = response($response);
+        }
+
+        // Verifica se o retorno é um objeto de Response
+        if (!$response instanceof Response) {
+            throw new ResponseException("Controller action must return a Response object");
+        }
+
+        $response->send();
     }
 
     /**

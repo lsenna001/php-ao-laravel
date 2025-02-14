@@ -2,7 +2,6 @@
 
 namespace Core\Library;
 
-use Core\Exceptions\ViewNotFoundException;
 use Core\Exceptions\ClassNotFoundException;
 use Core\Interfaces\TemplateInterface;
 
@@ -13,7 +12,7 @@ class Layout
      * @param string $view Nome da View
      * @param array $data Dados da View
      */
-    public static function render(string $view, array $data = [], string $view_path = VIEWPATH)
+    public static function render(string $view, array $data = [], string $view_path = VIEWPATH): Response
     {
         $template = resolve('engine');
 
@@ -23,10 +22,14 @@ class Layout
 
         $template = new $template();
 
-        if(!$template instanceof TemplateInterface) {
+        if (!$template instanceof TemplateInterface) {
             throw new ClassNotFoundException("Template " . $template::class . " must be implement TemplateInterface.");
         }
 
-        return $template->render($view, $data, $view_path);
+        // Monta o objeto Response da View
+        return response(
+            content: $template->render($view, $data, $view_path),
+            headers: ['Content-Type' => 'text/html'],
+        );
     }
 }

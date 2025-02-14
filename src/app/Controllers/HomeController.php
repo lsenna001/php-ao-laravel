@@ -8,7 +8,6 @@ class HomeController
     {
         return view('home', [
             'title' => 'Home',
-            'name' => 'Leonardo'
         ]);
     }
 }

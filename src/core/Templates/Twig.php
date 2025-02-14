@@ -15,7 +15,7 @@ class Twig implements TemplateInterface
             'cache' => $viewPath . '/twig/cache',
         ]);
 
-        echo $twig->render($view . '.html', $data);
+        return $twig->render($view . '.html', $data);
     }
 
 }

@@ -22,6 +22,6 @@ class Smarty implements TemplateInterface
             }
         }
 
-        $smarty->display($view . '.tpl');
+        return $smarty->display($view . '.tpl');
     }
 }
